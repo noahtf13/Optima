@@ -1,9 +1,9 @@
 # Quick Decision Maker - Development To-Do List
 
 ## **1. Project Setup**
-- [ ] Initialize a Next.js project with TypeScript
-- [ ] Install Tailwind CSS and configure it properly
-- [ ] Set up global styles and base layout component
+- [x] Initialize a Next.js project with TypeScript
+- [x] Install Tailwind CSS and configure it properly
+- [x] Set up global styles and base layout component
 
 ## **2. Home Screen UI**
 - [ ] Create an input field for entering decision items
@@ -45,6 +45,7 @@
 - [ ] Improve accessibility (keyboard navigation, contrast, etc.)
 
 ## **8. Testing & Deployment**
+
 - [ ] Write unit tests for Elo logic and voting system
 - [ ] Test edge cases (ties, extreme votes, invalid inputs)
 - [ ] Perform UI/UX testing on different devices
