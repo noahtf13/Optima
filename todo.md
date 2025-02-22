@@ -6,18 +6,18 @@
 - [x] Set up global styles and base layout component
 
 ## **2. Home Screen UI**
-- [ ] Create an input field for entering decision items
-- [ ] Display entered items in a list
-- [ ] Implement a "Clear All" button to reset entries
-- [ ] Enable the "Next" button only when at least 3 items are entered
-- [ ] Implement navigation to the voter entry screen
+- [X] Create an input field for entering decision items
+- [X] Display entered items in a list
+- [X] Implement a "Clear All" button to reset entries
+- [X] Enable the "Next" button only when at least 3 items are entered
+- [X] Implement navigation to the voter entry screen
 
 ## **3. Voter Entry Screen**
-- [ ] Create an input field for entering voter names
-- [ ] Display entered voters in a list
-- [ ] Ensure duplicate names are not allowed
-- [ ] Enable the "Start Voting" button only when at least 2 voters are entered
-- [ ] Implement navigation to the voting screen
+- [X] Create an input field for entering voter names
+- [X] Display entered voters in a list
+- [X] Ensure duplicate names are not allowed
+- [X] Enable the "Start Voting" button only when at least 2 voters are entered
+- [X] Implement navigation to the voting screen
 
 ## **4. Voting Logic**
 - [ ] Create a voting UI with Option A vs. Option B
