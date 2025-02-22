@@ -49,5 +49,5 @@
 - [ ] Write unit tests for Elo logic and voting system
 - [ ] Test edge cases (ties, extreme votes, invalid inputs)
 - [ ] Perform UI/UX testing on different devices
-- [ ] Deploy the app to Vercel
-- [ ] Verify production functionality and fix any issues
+- [X] Deploy the app to Vercel
+- [X] Verify production functionality and fix any issues
