@@ -1,72 +1,36 @@
-# Optima
+This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
-## Overview
-Optima is a lightweight, single-session web application designed for groups to efficiently reach a consensus on a list of items using a margin-sensitive Elo algorithm. The application ensures a **snappy, distraction-free UX** and requires **no sign-in or persistent data storage**.
+## Getting Started
 
-## Features
-- **Single-session, ephemeral usage** (no user accounts or data storage)
-- **Fast, responsive UI** optimized for desktop and mobile
-- **Deterministic decision-making** with an Elo-based ranking system
-- **Simple and intuitive workflow** for entering items, voting, and ranking
-- **Automatic elimination of weak options** for efficient decision-making
+First, run the development server:
 
-## User Flow
-1. **Home Screen**: Users enter a list of items to be ranked.
-2. **Voter Entry**: Participants enter their names to vote.
-3. **Voting Round**: Items are matched up in an **A vs. B** format for voting.
-4. **Ranking Calculation**: An Elo-based algorithm determines the strongest options.
-5. **Final Results**: A ranked list is displayed with an option to copy results or restart.
+```bash
+npm run dev
+# or
+yarn dev
+# or
+pnpm dev
+# or
+bun dev
+```
 
-## Technology Stack
-- **Frontend:** Next.js (React, TypeScript, Tailwind CSS)
-- **State Management:** React Context / useState
-- **Deployment:** Vercel
+Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-## Installation & Development
-### Prerequisites
-- Node.js
-- npm or yarn
+You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
 
-### Setup
-1. Clone the repository:
-   ```sh
-   git clone https://github.com/noahtf13/Optima
-   cd Optima
-   ```
-2. Install dependencies:
-   ```sh
-   npm install  # or yarn install
-   ```
-3. Run the development server:
-   ```sh
-   npm run dev  # or yarn dev
-   ```
-4. Open the app in your browser at `http://localhost:3000`.
+This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
 
-## Deployment
-To deploy on **Vercel**:
-1. Install the Vercel CLI:
-   ```sh
-   npm install -g vercel
-   ```
-2. Deploy the project:
-   ```sh
-   vercel
-   ```
+## Learn More
 
-## Contribution
-Contributions are welcome! Please follow these steps:
-1. Fork the repository
-2. Create a feature branch (`git checkout -b feature-name`)
-3. Commit your changes (`git commit -m "Added new feature"`)
-4. Push the branch (`git push origin feature-name`)
-5. Submit a pull request
+To learn more about Next.js, take a look at the following resources:
 
-## License
-This project is licensed under the MIT License.
+- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
+- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
 
-## Contact
-For any questions or feedback, please open an issue in the repository or reach out to the maintainer.
+You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
 
-## Credit
-[Harper Reed's Blog](https://harper.blog/2025/02/16/my-llm-codegen-workflow-atm) on their codegen workflow was intstrumental here as I'm a Data Scientist by day and am completely unfamiliar with frontend work outside of basic HTML/CSS. I'd love to learn best practice as much as possible, so if you see me deviating from it submit an issue or PR, or just send me an email to noahtylerford@gmail.com
+## Deploy on Vercel
+
+The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+
+Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
