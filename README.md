@@ -1,7 +1,7 @@
-# Quick Decision Maker
+# Optima
 
 ## Overview
-Quick Decision Maker is a lightweight, single-session web application designed for groups to efficiently reach a consensus on a list of items using a margin-sensitive Elo algorithm. The application ensures a **snappy, distraction-free UX** and requires **no sign-in or persistent data storage**.
+Optima is a lightweight, single-session web application designed for groups to efficiently reach a consensus on a list of items using a margin-sensitive Elo algorithm. The application ensures a **snappy, distraction-free UX** and requires **no sign-in or persistent data storage**.
 
 ## Features
 - **Single-session, ephemeral usage** (no user accounts or data storage)
@@ -20,7 +20,7 @@ Quick Decision Maker is a lightweight, single-session web application designed f
 ## Technology Stack
 - **Frontend:** Next.js (React, TypeScript, Tailwind CSS)
 - **State Management:** React Context / useState
-- **Deployment:** Vercel (recommended)
+- **Deployment:** Vercel
 
 ## Installation & Development
 ### Prerequisites
@@ -30,8 +30,8 @@ Quick Decision Maker is a lightweight, single-session web application designed f
 ### Setup
 1. Clone the repository:
    ```sh
-   git clone https://github.com/your-repo/quick-decision-maker.git
-   cd quick-decision-maker
+   git clone https://github.com/noahtf13/Optima
+   cd Optima
    ```
 2. Install dependencies:
    ```sh
