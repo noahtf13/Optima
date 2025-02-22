@@ -20,10 +20,10 @@
 - [X] Implement navigation to the voting screen
 
 ## **4. Voting Logic**
-- [ ] Create a voting UI with Option A vs. Option B
-- [ ] Display three selection buttons (Left, IDK, Right) for each voter
-- [ ] Store votes in component state and allow modifications before confirmation
-- [ ] Disable "Confirm & Next" button until all voters have made a selection
+- [X] Create a voting UI with Option A vs. Option B
+- [X] Display three selection buttons (Left, IDK, Right) for each voter
+- [X] Store votes in component state and allow modifications before confirmation
+- [X] Disable "Confirm & Next" button until all voters have made a selection
 - [ ] Implement a dynamic progress bar for matchups
 
 ## **5. Elo Algorithm**

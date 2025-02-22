@@ -1,7 +1,7 @@
 'use client';
 import { createContext, useContext, useState } from 'react';
 
-type Option = {
+interface Option {
   name: string;
   eloScore: number;
 }
@@ -18,10 +18,11 @@ type DecisionState = {
   }>;
 }
 
-type DecisionContext = {
+interface DecisionContextType {
   state: DecisionState;
   addOption: (name: string) => void;
   addVoter: (name: string) => void;
+  updateOptionElo: (index: number, newElo: number) => void;
   updateMatchupVote: (voter: string, choice: 'A' | 'B' | 'IDK') => void;
   confirmMatchup: () => void;
   resetSession: () => void;
@@ -35,7 +36,7 @@ const initialState: DecisionState = {
   matchupResults: []
 };
 
-const DecisionContext = createContext<DecisionContext | null>(null);
+const DecisionContext = createContext<DecisionContextType | null>(null);
 
 export function DecisionProvider({ children }: { children: React.ReactNode }) {
   const [state, setState] = useState<DecisionState>(initialState);
@@ -51,6 +52,15 @@ export function DecisionProvider({ children }: { children: React.ReactNode }) {
     setState(prev => ({
       ...prev,
       voters: [...prev.voters, name]
+    }));
+  };
+
+  const updateOptionElo = (index: number, newElo: number) => {
+    setState(prev => ({
+      ...prev,
+      options: prev.options.map((opt, i) => 
+        i === index ? { ...opt, eloScore: newElo } : opt
+      )
     }));
   };
 
@@ -80,6 +90,7 @@ export function DecisionProvider({ children }: { children: React.ReactNode }) {
       state,
       addOption,
       addVoter,
+      updateOptionElo,
       updateMatchupVote,
       confirmMatchup,
       resetSession
@@ -89,8 +100,10 @@ export function DecisionProvider({ children }: { children: React.ReactNode }) {
   );
 }
 
-export const useDecisions = () => {
+export function useDecisions() {
   const context = useContext(DecisionContext);
-  if (!context) throw new Error('useDecisions must be used within DecisionProvider');
+  if (!context) {
+    throw new Error('useDecisions must be used within a DecisionProvider');
+  }
   return context;
-}; 
+} 

@@ -1,67 +1,133 @@
-'use client';
-import { useRouter } from 'next/navigation';
-import { useDecisions } from '../context/DecisionContext';
+import { useState, useEffect } from 'react';
 
-export default function VotingScreen() {
-  const { state } = useDecisions();
-  const router = useRouter();
+interface VotingScreenProps {
+  items: string[];
+  voters: string[];
+  onVotingComplete: (results: Record<string, string>) => void;
+  currentMatchup: number;
+  totalMatchups: number;
+  options: Option[];
+}
 
-  // Guard against empty state
-  if (state.options.length < 3 || state.voters.length < 2) {
-    return (
-      <main className="max-w-md mx-auto p-4">
-        <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded">
-          <p>Not enough options or voters. Please go back and add more.</p>
-          <button
-            onClick={() => router.push('/')}
-            className="mt-2 bg-red-500 text-white px-4 py-2 rounded"
-          >
-            Go Back
-          </button>
-        </div>
-      </main>
-    );
-  }
+interface Option {
+  name: string;
+  eloScore: number;
+  eliminated?: boolean;
+}
 
+export default function VotingScreen({ 
+  items, 
+  voters, 
+  onVotingComplete,
+  currentMatchup,
+  totalMatchups,
+  options 
+}: VotingScreenProps) {
+  const [votes, setVotes] = useState<Record<string, string>>({});
+  
+  // Reset votes when items change
+  useEffect(() => {
+    setVotes({});
+  }, [items]);
+  
+  // Check if all voters have voted
+  const allVotesSubmitted = voters.every(voter => votes[voter]);
+  
+  const handleConfirm = () => {
+    if (allVotesSubmitted) {
+      onVotingComplete(votes);
+    }
+  };
+  
   return (
-    <main className="max-w-md mx-auto p-4">
-      <h1 className="text-2xl font-bold mb-6">Current State Check</h1>
+    <div className="max-w-4xl mx-auto p-4 space-y-6">
+      {/* Progress bar */}
+      <div className="w-full bg-gray-200 rounded-full h-2.5">
+        <div 
+          className="bg-blue-500 h-2.5 rounded-full transition-all duration-300"
+          style={{ width: `${(currentMatchup / totalMatchups) * 100}%` }}
+        />
+      </div>
+      <div className="text-sm text-gray-600 text-center">
+        {totalMatchups - currentMatchup} remaining matchups / {totalMatchups} total
+      </div>
+
+      {/* Matchup display */}
+      <div className="flex justify-between items-center gap-8">
+        <div className="flex-1 p-8 bg-blue-100 rounded-lg text-center">
+          <h2 className="text-2xl font-bold">{items[0]}</h2>
+        </div>
+        <div className="text-xl font-bold">vs</div>
+        <div className="flex-1 p-8 bg-red-100 rounded-lg text-center">
+          <h2 className="text-2xl font-bold">{items[1]}</h2>
+        </div>
+      </div>
       
-      <div className="mb-6">
-        <h2 className="font-bold mb-2">Options:</h2>
-        <ul className="bg-gray-50 p-4 rounded">
-          {state.options.map((option, index) => (
-            <li key={index} className="mb-2">
-              {option.name} (Elo: {option.eloScore})
-            </li>
+      {/* Voting buttons */}
+      <div className="space-y-4">
+        {voters.map(voter => (
+          <div key={voter} className="flex items-center justify-between gap-4">
+            <span className="w-24">{voter}</span>
+            <div className="flex gap-2">
+              <button
+                onClick={() => setVotes({ ...votes, [voter]: 'left' })}
+                className={`px-4 py-2 rounded ${
+                  votes[voter] === 'left' ? 'bg-blue-500 text-white' : 'bg-gray-200'
+                }`}
+              >
+                Left
+              </button>
+              <button
+                onClick={() => setVotes({ ...votes, [voter]: 'idk' })}
+                className={`px-4 py-2 rounded ${
+                  votes[voter] === 'idk' ? 'bg-blue-500 text-white' : 'bg-gray-200'
+                }`}
+              >
+                IDK
+              </button>
+              <button
+                onClick={() => setVotes({ ...votes, [voter]: 'right' })}
+                className={`px-4 py-2 rounded ${
+                  votes[voter] === 'right' ? 'bg-blue-500 text-white' : 'bg-gray-200'
+                }`}
+              >
+                Right
+              </button>
+            </div>
+          </div>
+        ))}
+      </div>
+
+      {/* Eliminated options list */}
+      <div className="mt-8">
+        <h3 className="text-lg font-semibold mb-2">Options</h3>
+        <div className="grid grid-cols-2 gap-2">
+          {options.map(option => (
+            <div
+              key={option.name}
+              className={`p-2 rounded ${
+                option.eliminated 
+                  ? 'bg-red-100 line-through text-gray-500'
+                  : 'bg-green-100'
+              } transition-all duration-500`}
+            >
+              {option.name}
+            </div>
           ))}
-        </ul>
+        </div>
       </div>
 
-      <div className="mb-6">
-        <h2 className="font-bold mb-2">Voters:</h2>
-        <ul className="bg-gray-50 p-4 rounded">
-          {state.voters.map((voter, index) => (
-            <li key={index} className="mb-2">{voter}</li>
-          ))}
-        </ul>
-      </div>
-
-      <div className="flex gap-2">
-        <button
-          onClick={() => router.push('/voters')}
-          className="bg-gray-500 text-white px-4 py-2 rounded"
-        >
-          Back to Voters
-        </button>
-      </div>
-
-      <div className="mt-4 p-4 bg-gray-100 rounded">
-        <h2 className="font-bold mb-2">Debug Info:</h2>
-        <pre className="text-xs overflow-auto">
-          {JSON.stringify(state, null, 2)}
-        </pre>
-      </div>
-    </main>
+      <button
+        onClick={handleConfirm}
+        disabled={!allVotesSubmitted}
+        className={`w-full py-3 rounded-lg font-bold ${
+          allVotesSubmitted 
+            ? 'bg-green-500 text-white hover:bg-green-600' 
+            : 'bg-gray-300 text-gray-500 cursor-not-allowed'
+        }`}
+      >
+        Confirm & Next
+      </button>
+    </div>
   );
 } 
