@@ -24,7 +24,7 @@ Quick Decision Maker is a lightweight, single-session web application designed f
 
 ## Installation & Development
 ### Prerequisites
-- Node.js (latest stable version)
+- Node.js
 - npm or yarn
 
 ### Setup
@@ -67,3 +67,6 @@ This project is licensed under the MIT License.
 
 ## Contact
 For any questions or feedback, please open an issue in the repository or reach out to the maintainer.
+
+## Credit
+[Harper Reed's Blog](https://harper.blog/2025/02/16/my-llm-codegen-workflow-atm) on their codegen workflow was intstrumental here as I'm a Data Scientist by day and am completely unfamiliar with frontend work outside of basic HTML/CSS. If you see any glaring concerns about this repo, submit a PR or reach out to noahtylerford@gmail.com
