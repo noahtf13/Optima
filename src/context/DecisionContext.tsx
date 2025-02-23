@@ -4,6 +4,7 @@ import { createContext, useContext, useState } from 'react';
 interface Option {
   name: string;
   eloScore: number;
+  eliminated?: boolean;
 }
 
 type DecisionState = {
@@ -26,6 +27,7 @@ interface DecisionContextType {
   updateMatchupVote: (voter: string, choice: 'A' | 'B' | 'IDK') => void;
   confirmMatchup: () => void;
   resetSession: () => void;
+  updateOptionElimination: (index: number, eliminated: boolean) => void;
 }
 
 const initialState: DecisionState = {
@@ -85,6 +87,15 @@ export function DecisionProvider({ children }: { children: React.ReactNode }) {
     setState(initialState);
   };
 
+  const updateOptionElimination = (index: number, eliminated: boolean) => {
+    setState(prev => ({
+      ...prev,
+      options: prev.options.map((opt, i) => 
+        i === index ? { ...opt, eliminated } : opt
+      )
+    }));
+  };
+
   return (
     <DecisionContext.Provider value={{
       state,
@@ -93,7 +104,8 @@ export function DecisionProvider({ children }: { children: React.ReactNode }) {
       updateOptionElo,
       updateMatchupVote,
       confirmMatchup,
-      resetSession
+      resetSession,
+      updateOptionElimination
     }}>
       {children}
     </DecisionContext.Provider>
