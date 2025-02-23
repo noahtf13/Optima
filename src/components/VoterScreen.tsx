@@ -18,11 +18,11 @@ export default function VoterScreen() {
 
   return (
     <main className="max-w-md mx-auto p-4">
-      <div className="mb-6 p-4 bg-gray-100 rounded">
-        <h2 className="font-bold mb-2">Options to Vote On:</h2>
+      <div className="mb-6 p-4 bg-gray-100 dark:bg-gray-800 rounded">
+        <h2 className="font-bold mb-2 text-foreground">Options to Vote On:</h2>
         <ul>
           {state.options.map((option, index) => (
-            <li key={index} className="text-sm text-gray-600">
+            <li key={index} className="text-sm text-gray-600 dark:text-gray-300">
               {option.name}
             </li>
           ))}
@@ -35,13 +35,13 @@ export default function VoterScreen() {
           value={currentInput}
           onChange={(e) => setCurrentInput(e.target.value)}
           placeholder="Enter voter name..."
-          className="w-full p-2 border rounded"
+          className="w-full p-2 border rounded bg-background text-foreground"
         />
       </form>
 
       <ul className="my-4">
         {state.voters.map((voter, index) => (
-          <li key={index} className="p-2 bg-gray-50 mb-2 rounded">
+          <li key={index} className="p-2 bg-gray-50 dark:bg-gray-800 mb-2 rounded text-foreground">
             {voter}
           </li>
         ))}
@@ -50,14 +50,14 @@ export default function VoterScreen() {
       <div className="flex gap-2">
         <button
           onClick={() => router.push('/')}
-          className="bg-gray-500 text-white px-4 py-2 rounded"
+          className="bg-gray-500 hover:bg-gray-600 text-white px-4 py-2 rounded"
         >
           Back
         </button>
 
         <button
           onClick={() => state.voters.length >= 2 && router.push('/voting')}
-          className={`bg-blue-500 text-white px-4 py-2 rounded flex-1
+          className={`bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded flex-1
             ${state.voters.length < 2 ? 'opacity-50 cursor-not-allowed' : ''}`}
           disabled={state.voters.length < 2}
         >

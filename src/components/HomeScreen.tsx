@@ -22,13 +22,13 @@ export default function HomeScreen() {
           value={currentInput}
           onChange={(e) => setCurrentInput(e.target.value)}
           placeholder="Enter a decision option..."
-          className="w-full p-2 border rounded"
+          className="w-full p-2 border rounded bg-background text-foreground"
         />
       </form>
 
       <ul className="my-4">
         {state.options.map((option, index) => (
-          <li key={index} className="p-2 bg-gray-50 mb-2 rounded">
+          <li key={index} className="p-2 bg-gray-50 dark:bg-gray-800 mb-2 rounded text-foreground">
             {option.name}
           </li>
         ))}
@@ -36,14 +36,14 @@ export default function HomeScreen() {
 
       <button
         onClick={() => state.options = []}
-        className="bg-red-500 text-white px-4 py-2 rounded mr-2"
+        className="bg-red-500 hover:bg-red-600 text-white px-4 py-2 rounded mr-2"
       >
         Clear All
       </button>
 
       <button
         onClick={() => state.options.length >= 3 && router.push('/voters')}
-        className={`bg-blue-500 text-white px-4 py-2 rounded
+        className={`bg-blue-500 hover:bg-blue-600 text-white px-4 py-2 rounded
           ${state.options.length < 3 ? 'opacity-50 cursor-not-allowed' : ''}`}
         disabled={state.options.length < 3}
       >
