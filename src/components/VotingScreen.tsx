@@ -17,7 +17,7 @@ interface VotingScreenProps {
     name: string;
     eloScore: number;
     eliminated?: boolean;
-    winPercentage: number;
+    winPercentage?: number;
   }>;
 }
 
@@ -49,12 +49,17 @@ export default function VotingScreen({
         <div className="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2.5">
           <div 
             className="bg-primary-500 h-2.5 rounded-full transition-all duration-300"
-            style={{ width: `${Math.max(...options.map(opt => opt.winPercentage))}%` }}
+            style={{ width: `${Math.max(...options.map(opt => opt.winPercentage ?? 0))}%` }}
           />
         </div>
-        <p className="text-sm text-gray-600 dark:text-gray-400 text-center mt-2">
-          {Math.round(Math.max(...options.map(opt => opt.winPercentage)))}% confidence in decision
-        </p>
+        <div className="flex justify-between text-sm text-gray-600 dark:text-gray-400 mt-2">
+          <p>
+            Matchup {currentMatchup + 1} of {totalMatchups}
+          </p>
+          <p>
+            {Math.round(Math.max(...options.map(opt => opt.winPercentage ?? 0)))}% confidence
+          </p>
+        </div>
       </Card>
 
       {/* Matchup display */}

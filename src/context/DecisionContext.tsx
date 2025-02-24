@@ -1,7 +1,7 @@
 'use client';
 import { createContext, useContext, useState } from 'react';
 
-interface Option {
+export interface Option {
   name: string;
   eloScore: number;
   eliminated?: boolean;
@@ -22,7 +22,7 @@ type DecisionState = {
 
 export type DecisionContextType = {
   state: DecisionState;
-  addOption: (option: Option) => void;
+  addOption: (name: string) => void;
   clearOptions: () => void;
   addVoter: (voter: string) => void;
   clearVoters: () => void;

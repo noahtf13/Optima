@@ -146,9 +146,6 @@ export default function VotingPage() {
       return opt.eloScore;
     });
     
-    // Find current highest Elo
-    const highestElo = Math.max(...updatedRatings);
-    
     // Check for new eliminations
     const newEliminated = new Set(eliminatedOptions);
     

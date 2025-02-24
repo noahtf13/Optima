@@ -2,6 +2,7 @@ import { Container } from './layout/Container';
 import { Card } from './ui/Card';
 import { Button } from './ui/Button';
 import { ProgressHeader } from './layout/ProgressHeader';
+import { Option } from '../context/DecisionContext';
 
 interface ResultsScreenProps {
   options: Option[];
