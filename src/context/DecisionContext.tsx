@@ -23,6 +23,7 @@ interface DecisionContextType {
   state: DecisionState;
   addOption: (name: string) => void;
   addVoter: (name: string) => void;
+  clearOptions: () => void;
   updateOptionElo: (index: number, newElo: number) => void;
   updateMatchupVote: (voter: string, choice: 'A' | 'B' | 'IDK') => void;
   confirmMatchup: () => void;
@@ -96,11 +97,19 @@ export function DecisionProvider({ children }: { children: React.ReactNode }) {
     }));
   };
 
+  const clearOptions = () => {
+    setState(prev => ({
+      ...prev,
+      options: []
+    }));
+  };
+
   return (
     <DecisionContext.Provider value={{
       state,
       addOption,
       addVoter,
+      clearOptions,
       updateOptionElo,
       updateMatchupVote,
       confirmMatchup,

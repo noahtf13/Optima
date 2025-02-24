@@ -1,5 +1,10 @@
+import { Container } from './layout/Container';
+import { Card } from './ui/Card';
+import { Button } from './ui/Button';
+import { ProgressHeader } from './layout/ProgressHeader';
+
 interface ResultsScreenProps {
-  options: Array<{ name: string; eloScore: number }>;
+  options: Option[];
   onRestart: () => void;
 }
 
@@ -14,42 +19,38 @@ export default function ResultsScreen({ options, onRestart }: ResultsScreenProps
   };
 
   return (
-    <div className="max-w-2xl mx-auto p-4 space-y-6">
-      <h1 className="text-2xl font-bold text-center mb-8 text-foreground">Final Rankings</h1>
+    <Container size="md">
+      <ProgressHeader currentStep={3} />
       
-      <div className="space-y-2">
-        {sortedOptions.map((option, index) => (
-          <div 
-            key={option.name}
-            className="flex justify-between items-center p-4 bg-background dark:bg-gray-800 rounded-lg shadow"
-          >
-            <div className="flex items-center gap-4">
-              <span className="text-2xl font-bold text-gray-400 dark:text-gray-500">
-                {index + 1}
+      <Card className="mb-8">
+        <div className="space-y-4">
+          {sortedOptions.map((option, index) => (
+            <div 
+              key={option.name}
+              className="flex justify-between items-center p-4 bg-gray-50 dark:bg-gray-800/50 rounded-xl"
+            >
+              <div className="flex items-center gap-4">
+                <span className="text-2xl font-bold text-indigo-500 dark:text-indigo-400">
+                  #{index + 1}
+                </span>
+                <span className="font-medium text-foreground">{option.name}</span>
+              </div>
+              <span className="text-sm text-gray-500 dark:text-gray-400">
+                {Math.round(option.eloScore)}
               </span>
-              <span className="font-medium text-foreground">{option.name}</span>
             </div>
-            <span className="text-sm text-gray-500 dark:text-gray-400">
-              {Math.round(option.eloScore)}
-            </span>
-          </div>
-        ))}
-      </div>
+          ))}
+        </div>
+      </Card>
 
-      <div className="flex gap-4 mt-8">
-        <button
-          onClick={handleCopyResults}
-          className="flex-1 bg-blue-500 hover:bg-blue-600 text-white py-2 rounded-lg"
-        >
+      <div className="flex gap-4">
+        <Button variant="secondary" fullWidth onClick={handleCopyResults}>
           Copy Results
-        </button>
-        <button
-          onClick={onRestart}
-          className="flex-1 bg-gray-500 hover:bg-gray-600 text-white py-2 rounded-lg"
-        >
+        </Button>
+        <Button variant="primary" fullWidth onClick={onRestart}>
           Start Over
-        </button>
+        </Button>
       </div>
-    </div>
+    </Container>
   );
 } 
