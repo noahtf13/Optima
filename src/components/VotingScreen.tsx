@@ -1,28 +1,31 @@
+'use client';
 import { useState, useEffect } from 'react';
 import { Container } from './layout/Container';
 import { Card } from './ui/Card';
 import { Button } from './ui/Button';
 import { ProgressHeader } from './layout/ProgressHeader';
+import { LeaderboardCard } from './LeaderboardCard';
 
 interface VotingScreenProps {
   items: string[];
   voters: string[];
   onVotingComplete: (results: Record<string, string>) => void;
+  onSkipToResults: () => void;
   currentMatchup: number;
   totalMatchups: number;
-  options: Option[];
-}
-
-interface Option {
-  name: string;
-  eloScore: number;
-  eliminated?: boolean;
+  options: Array<{
+    name: string;
+    eloScore: number;
+    eliminated?: boolean;
+    winPercentage: number;
+  }>;
 }
 
 export default function VotingScreen({ 
   items, 
   voters, 
   onVotingComplete,
+  onSkipToResults,
   currentMatchup,
   totalMatchups,
   options 
@@ -87,33 +90,26 @@ export default function VotingScreen({
         </div>
       </Card>
 
-      {/* Options Status */}
-      <Card variant="subtle" className="mb-8">
-        <h3 className="text-lg font-semibold mb-4 text-foreground">Options Status</h3>
-        <div className="grid grid-cols-2 gap-4">
-          {options.map(option => (
-            <div
-              key={option.name}
-              className={`p-4 rounded-xl transition-all duration-500 ${
-                option.eliminated 
-                  ? 'bg-red-100 dark:bg-red-900/20 line-through text-gray-500 dark:text-gray-400'
-                  : 'bg-green-100 dark:bg-green-900/20 text-foreground'
-              }`}
-            >
-              {option.name}
-            </div>
-          ))}
-        </div>
-      </Card>
+      {/* Leaderboard */}
+      <LeaderboardCard options={options} />
 
-      <Button
-        variant="primary"
-        fullWidth
-        disabled={!allVotesSubmitted}
-        onClick={() => allVotesSubmitted && onVotingComplete(votes)}
-      >
-        Confirm & Next
-      </Button>
+      <div className="flex gap-4">
+        <Button
+          variant="secondary"
+          fullWidth
+          onClick={onSkipToResults}
+        >
+          Skip to Results
+        </Button>
+        <Button
+          variant="primary"
+          fullWidth
+          disabled={!allVotesSubmitted}
+          onClick={() => allVotesSubmitted && onVotingComplete(votes)}
+        >
+          Confirm & Next
+        </Button>
+      </div>
     </Container>
   );
 } 

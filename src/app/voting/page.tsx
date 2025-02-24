@@ -94,8 +94,11 @@ function getRemainingMatchups(
 }
 
 export default function VotingPage() {
-  const { state, updateOptionElo, updateOptionElimination } = useDecisions();
+  const { state, updateOptionElo, updateOptionElimination, updateOptionWinPercentage } = useDecisions();
   const router: AppRouterInstance = useRouter();
+  
+  // Calculate K once at component initialization
+  const k = calculateK(state.options.length);
   
   // Initialize with first valid pair
   const [currentPair, setCurrentPair] = useState<[number, number]>(() => {
@@ -132,9 +135,6 @@ export default function VotingPage() {
     const ratingA = state.options[optionA].eloScore;
     const ratingB = state.options[optionB].eloScore;
     
-    // Calculate K factor using the formula from spec
-    const k = calculateK(state.options.length);
-    
     // Calculate new ratings
     const newRatingA = calculateNewElo(ratingA, ratingB, leftScore, totalVotes, k);
     const newRatingB = calculateNewElo(ratingB, ratingA, rightScore, totalVotes, k);
@@ -166,6 +166,11 @@ export default function VotingPage() {
 
     // Run simulations to get win percentages
     const winPercentages = runSimulations(updatedRatings, remainingMatchups);
+
+    // Update win percentages in state
+    winPercentages.forEach((percentage, index) => {
+      updateOptionWinPercentage(index, percentage);
+    });
 
     // Check for eliminations and winner
     let hasWinner = false;
@@ -203,17 +208,37 @@ export default function VotingPage() {
     setCurrentMatchup(prev => prev + 1);
   };
 
-  return <VotingScreen 
-    items={[
-      state.options[currentPair[0]].name,
-      state.options[currentPair[1]].name
-    ]}
-    voters={state.voters}
-    onVotingComplete={handleVotingComplete}
-    currentMatchup={currentMatchup}
-    totalMatchups={totalMatchups}
-    options={state.options}
-  />;
+  const handleSkipToResults = () => {
+    // Run one final simulation to update win percentages
+    const remainingMatchups = getRemainingMatchups(
+      state.options.length,
+      currentPair,
+      eliminatedOptions
+    );
+    
+    const currentRatings = state.options.map(opt => opt.eloScore);
+    const winPercentages = runSimulations(currentRatings, remainingMatchups);
+    
+    // Update final win percentages
+    winPercentages.forEach((percentage, index) => {
+      updateOptionWinPercentage(index, percentage);
+    });
+    
+    // Navigate to results
+    router.push('/results');
+  };
+
+  return (
+    <VotingScreen
+      items={[state.options[currentPair[0]].name, state.options[currentPair[1]].name]}
+      voters={state.voters}
+      onVotingComplete={handleVotingComplete}
+      onSkipToResults={handleSkipToResults}
+      currentMatchup={currentMatchup}
+      totalMatchups={totalMatchups}
+      options={state.options}
+    />
+  );
 }
 
 // Helper function to get the next unique pair of items to compare

@@ -5,6 +5,7 @@ interface Option {
   name: string;
   eloScore: number;
   eliminated?: boolean;
+  winPercentage?: number;
 }
 
 type DecisionState = {
@@ -30,6 +31,7 @@ export type DecisionContextType = {
   confirmMatchup: () => void;
   resetSession: () => void;
   updateOptionElimination: (index: number, eliminated: boolean) => void;
+  updateOptionWinPercentage: (index: number, percentage: number) => void;
 }
 
 const initialState: DecisionState = {
@@ -48,7 +50,11 @@ export function DecisionProvider({ children }: { children: React.ReactNode }) {
   const addOption = (name: string) => {
     setState(prev => ({
       ...prev,
-      options: [...prev.options, { name, eloScore: 1500 }]
+      options: [...prev.options, { 
+        name, 
+        eloScore: 1500,
+        winPercentage: 0 
+      }]
     }));
   };
 
@@ -109,6 +115,15 @@ export function DecisionProvider({ children }: { children: React.ReactNode }) {
     setState(prev => ({ ...prev, voters: [] }));
   };
 
+  const updateOptionWinPercentage = (index: number, percentage: number) => {
+    setState(prev => ({
+      ...prev,
+      options: prev.options.map((opt, i) => 
+        i === index ? { ...opt, winPercentage: percentage } : opt
+      )
+    }));
+  };
+
   return (
     <DecisionContext.Provider value={{
       state,
@@ -120,7 +135,8 @@ export function DecisionProvider({ children }: { children: React.ReactNode }) {
       confirmMatchup,
       resetSession,
       updateOptionElimination,
-      clearVoters
+      clearVoters,
+      updateOptionWinPercentage
     }}>
       {children}
     </DecisionContext.Provider>
