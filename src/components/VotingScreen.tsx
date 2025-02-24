@@ -49,11 +49,11 @@ export default function VotingScreen({
         <div className="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2.5">
           <div 
             className="bg-primary-500 h-2.5 rounded-full transition-all duration-300"
-            style={{ width: `${(currentMatchup / totalMatchups) * 100}%` }}
+            style={{ width: `${Math.max(...options.map(opt => opt.winPercentage))}%` }}
           />
         </div>
         <p className="text-sm text-gray-600 dark:text-gray-400 text-center mt-2">
-          {totalMatchups - currentMatchup} remaining matchups / {totalMatchups} total
+          {Math.round(Math.max(...options.map(opt => opt.winPercentage)))}% confidence in decision
         </p>
       </Card>
 
