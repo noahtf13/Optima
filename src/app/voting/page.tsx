@@ -32,6 +32,67 @@ function calculateNewElo(
   return ratingA + k * (actualScore - expectedScore);
 }
 
+// Simulate a matchup between two options
+function simulateMatchup(ratingA: number, ratingB: number): number {
+  const expectedScore = 1 / (1 + Math.pow(10, (ratingB - ratingA) / 400));
+  // Generate random actual score based on expected probability
+  return Math.random() < expectedScore ? 1 : 0;
+}
+
+// Run Monte Carlo simulation
+function runSimulations(
+  currentRatings: number[],
+  remainingMatchups: Array<[number, number]>,
+  numSimulations: number = 1000
+): number[] {
+  const winPercentages = new Array(currentRatings.length).fill(0);
+
+  for (let sim = 0; sim < numSimulations; sim++) {
+    // Copy current ratings for this simulation
+    const simRatings = [...currentRatings];
+    const k = calculateK(currentRatings.length);
+
+    // Simulate all remaining matchups
+    for (const [i, j] of remainingMatchups) {
+      const result = simulateMatchup(simRatings[i], simRatings[j]);
+      
+      // Update Elo ratings based on simulation result
+      const expectedScore = 1 / (1 + Math.pow(10, (simRatings[j] - simRatings[i]) / 400));
+      simRatings[i] += k * (result - expectedScore);
+      simRatings[j] += k * ((1 - result) - (1 - expectedScore));
+    }
+
+    // Find winner of this simulation
+    const winner = simRatings.indexOf(Math.max(...simRatings));
+    winPercentages[winner]++;
+  }
+
+  // Convert to percentages
+  return winPercentages.map(wins => (wins / numSimulations) * 100);
+}
+
+// Get all remaining matchups
+function getRemainingMatchups(
+  totalOptions: number,
+  currentPair: [number, number],
+  eliminatedOptions: Set<number>
+): Array<[number, number]> {
+  const matchups: Array<[number, number]> = [];
+  
+  for (let i = 0; i < totalOptions - 1; i++) {
+    for (let j = i + 1; j < totalOptions; j++) {
+      if (!eliminatedOptions.has(i) && !eliminatedOptions.has(j)) {
+        // Only include matchups that haven't happened yet
+        if (i > currentPair[0] || (i === currentPair[0] && j > currentPair[1])) {
+          matchups.push([i, j]);
+        }
+      }
+    }
+  }
+  
+  return matchups;
+}
+
 export default function VotingPage() {
   const { state, updateOptionElo, updateOptionElimination } = useDecisions();
   const router: AppRouterInstance = useRouter();
@@ -96,44 +157,45 @@ export default function VotingPage() {
     console.log(`${state.options[optionA].name}: ${Math.round(newRatingA)} (${leftScore > rightScore ? 'Won' : 'Lost'})`);
     console.log(`${state.options[optionB].name}: ${Math.round(newRatingB)} (${rightScore > leftScore ? 'Won' : 'Lost'})`);
     
-    // For each option, check if they can mathematically reach the highest score
-    console.log('\nElimination Check:');
-    updatedRatings.forEach((rating, index) => {
+    // Get remaining matchups
+    const remainingMatchups = getRemainingMatchups(
+      state.options.length,
+      currentPair,
+      newEliminated
+    );
+
+    // Run simulations to get win percentages
+    const winPercentages = runSimulations(updatedRatings, remainingMatchups);
+
+    // Check for eliminations and winner
+    let hasWinner = false;
+    winPercentages.forEach((percentage, index) => {
       if (!eliminatedOptions.has(index)) {
-        // Calculate maximum possible points from remaining matchups
-        let maxPossibleRating = rating;
-        
-        // For each remaining matchup
-        for (let i = 0; i < state.options.length; i++) {
-          if (i !== index && !eliminatedOptions.has(i)) {
-            // Calculate max rating gain from a unanimous victory
-            const expectedScore = 1 / (1 + Math.pow(10, (updatedRatings[i] - maxPossibleRating) / 400));
-            const maxGain = k * (1 - expectedScore); // 1 represents unanimous victory
-            maxPossibleRating += maxGain;
-          }
-        }
-        
-        // If max possible rating can't reach current highest, eliminate
-        if (maxPossibleRating < highestElo) {
-          console.log(`🚫 ${state.options[index].name} eliminated (Max possible: ${Math.round(maxPossibleRating)} vs Current highest: ${Math.round(highestElo)})`);
+        if (percentage <= 5) {
+          // Eliminate options with ≤5% chance of winning
+          console.log(`🚫 ${state.options[index].name} eliminated (${percentage.toFixed(1)}% chance of winning)`);
           newEliminated.add(index);
           updateOptionElimination(index, true);
+        } else if (percentage >= 95) {
+          // We have a winner!
+          hasWinner = true;
+          console.log(`🏆 ${state.options[index].name} has won (${percentage.toFixed(1)}% chance of winning)`);
         } else {
-          console.log(`${state.options[index].name}: Can reach ${Math.round(maxPossibleRating)} (Current: ${Math.round(rating)})`);
+          console.log(`${state.options[index].name}: ${percentage.toFixed(1)}% chance of winning`);
         }
       }
     });
+
+    // If we have a winner or only one option remains, go to results
+    if (hasWinner || state.options.length - newEliminated.size <= 1) {
+      router.push('/results');
+      return;
+    }
 
     // Update ratings in context after elimination check
     updateOptionElo(optionA, newRatingA);
     updateOptionElo(optionB, newRatingB);
     setEliminatedOptions(newEliminated);
-
-    // If all but one option is eliminated, go to results
-    if (state.options.length - newEliminated.size <= 1) {
-      router.push('/results');
-      return;
-    }
 
     // Get next valid pair
     const nextPair = getNextUniquePair(currentPair, state.options.length, newEliminated, router);
