@@ -6,11 +6,20 @@ import { Container } from './layout/Container';
 import { Card } from './ui/Card';
 import { Button } from './ui/Button';
 import { ProgressHeader } from './layout/ProgressHeader';
+import { Input } from './ui/Input';
 
 export default function HomeScreen() {
   const { state, addOption, clearOptions } = useDecisions();
   const [currentInput, setCurrentInput] = useState('');
   const router = useRouter();
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (currentInput.trim() && !state.options.some(opt => opt.name === currentInput.trim())) {
+      addOption(currentInput.trim());
+      setCurrentInput('');
+    }
+  };
 
   return (
     <Container size="md">
@@ -25,19 +34,12 @@ export default function HomeScreen() {
       </Card>
 
       {/* Input Form */}
-      <form onSubmit={(e) => {
-        e.preventDefault();
-        if (currentInput.trim()) {
-          addOption(currentInput.trim());
-          setCurrentInput('');
-        }
-      }} className="mb-6">
-        <input
-          type="text"
+      <form onSubmit={handleSubmit} className="mb-8">
+        <Input
           value={currentInput}
           onChange={(e) => setCurrentInput(e.target.value)}
-          placeholder="Enter a decision option..."
-          className="w-full p-3 border rounded-lg bg-background text-foreground focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all"
+          placeholder="Enter an option..."
+          aria-label="Option name"
         />
       </form>
 

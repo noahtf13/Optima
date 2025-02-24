@@ -19,11 +19,12 @@ type DecisionState = {
   }>;
 }
 
-interface DecisionContextType {
+export type DecisionContextType = {
   state: DecisionState;
-  addOption: (name: string) => void;
-  addVoter: (name: string) => void;
+  addOption: (option: Option) => void;
   clearOptions: () => void;
+  addVoter: (voter: string) => void;
+  clearVoters: () => void;
   updateOptionElo: (index: number, newElo: number) => void;
   updateMatchupVote: (voter: string, choice: 'A' | 'B' | 'IDK') => void;
   confirmMatchup: () => void;
@@ -104,6 +105,10 @@ export function DecisionProvider({ children }: { children: React.ReactNode }) {
     }));
   };
 
+  const clearVoters = () => {
+    setState(prev => ({ ...prev, voters: [] }));
+  };
+
   return (
     <DecisionContext.Provider value={{
       state,
@@ -114,7 +119,8 @@ export function DecisionProvider({ children }: { children: React.ReactNode }) {
       updateMatchupVote,
       confirmMatchup,
       resetSession,
-      updateOptionElimination
+      updateOptionElimination,
+      clearVoters
     }}>
       {children}
     </DecisionContext.Provider>

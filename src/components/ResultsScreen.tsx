@@ -30,7 +30,7 @@ export default function ResultsScreen({ options, onRestart }: ResultsScreenProps
               className="flex justify-between items-center p-4 bg-gray-50 dark:bg-gray-800/50 rounded-xl"
             >
               <div className="flex items-center gap-4">
-                <span className="text-2xl font-bold text-indigo-500 dark:text-indigo-400">
+                <span className="text-2xl font-bold text-primary-500 dark:text-primary-400">
                   #{index + 1}
                 </span>
                 <span className="font-medium text-foreground">{option.name}</span>

@@ -15,7 +15,7 @@ export function Button({
   const baseStyles = 'px-6 py-3 rounded-xl font-medium transition-all duration-200';
   
   const variants = {
-    primary: `bg-indigo-500 text-white ${!disabled && 'hover:bg-indigo-600 hover:shadow-lg hover:shadow-indigo-500/20'}`,
+    primary: `bg-primary-500 text-white ${!disabled && 'hover:bg-primary-600 hover:shadow-lg hover:shadow-primary-500/20'}`,
     secondary: `bg-gray-100 text-gray-600 ${!disabled && 'hover:bg-gray-200 dark:bg-gray-800 dark:text-gray-400 dark:hover:bg-gray-700'}`,
     ghost: `text-gray-600 ${!disabled && 'hover:bg-gray-50 dark:text-gray-400 dark:hover:bg-gray-800/50'}`
   };

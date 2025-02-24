@@ -45,7 +45,7 @@ export default function VotingScreen({
       <Card variant="subtle" className="mb-8">
         <div className="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2.5">
           <div 
-            className="bg-indigo-500 h-2.5 rounded-full transition-all duration-300"
+            className="bg-primary-500 h-2.5 rounded-full transition-all duration-300"
             style={{ width: `${(currentMatchup / totalMatchups) * 100}%` }}
           />
         </div>
@@ -56,7 +56,7 @@ export default function VotingScreen({
 
       {/* Matchup display */}
       <div className="flex justify-between items-center gap-8 mb-8">
-        <Card className="flex-1 p-8 text-center bg-indigo-50 dark:bg-indigo-900/20">
+        <Card className="flex-1 p-8 text-center bg-primary-50 dark:bg-primary-900/20">
           <h2 className="text-2xl font-bold text-foreground">{items[0]}</h2>
         </Card>
         <div className="text-xl font-bold text-foreground">vs</div>

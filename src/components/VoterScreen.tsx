@@ -6,9 +6,10 @@ import { Container } from './layout/Container';
 import { Card } from './ui/Card';
 import { Button } from './ui/Button';
 import { ProgressHeader } from './layout/ProgressHeader';
+import { Input } from './ui/Input';
 
 export default function VoterScreen() {
-  const { state, addVoter } = useDecisions();
+  const { state, addVoter, clearVoters } = useDecisions();
   const [currentInput, setCurrentInput] = useState('');
   const router = useRouter();
 
@@ -37,13 +38,12 @@ export default function VoterScreen() {
       </Card>
 
       {/* Input Form */}
-      <form onSubmit={handleSubmit} className="mb-6">
-        <input
-          type="text"
+      <form onSubmit={handleSubmit} className="mb-8">
+        <Input
           value={currentInput}
           onChange={(e) => setCurrentInput(e.target.value)}
           placeholder="Enter voter name..."
-          className="w-full p-4 border border-gray-200 dark:border-gray-800 rounded-xl bg-white dark:bg-gray-800 text-foreground placeholder-gray-400 focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 outline-none transition-all"
+          aria-label="Voter name"
         />
       </form>
 
@@ -67,6 +67,9 @@ export default function VoterScreen() {
       <div className="flex gap-4 mt-auto">
         <Button variant="ghost" onClick={() => router.push('/')}>
           Back
+        </Button>
+        <Button variant="ghost" onClick={clearVoters}>
+          Clear All
         </Button>
         <Button
           variant="primary"

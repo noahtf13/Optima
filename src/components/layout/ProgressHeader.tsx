@@ -28,7 +28,7 @@ export function ProgressHeader({ title = 'Optima', currentStep }: ProgressHeader
               flex items-center justify-center 
               border-2 transition-colors
               ${i === currentStep ?
-                'border-indigo-500 bg-indigo-50 text-indigo-600 dark:bg-indigo-500/10 dark:text-indigo-400' :
+                'border-primary-500 bg-primary-50 text-primary-600 dark:bg-primary-500/10 dark:text-primary-400' :
                 'border-gray-200 bg-white text-gray-400 dark:border-gray-700 dark:bg-gray-800'
               }`}>
               {i + 1}

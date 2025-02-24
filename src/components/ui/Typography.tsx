@@ -15,7 +15,7 @@ export function Title({ children, className = '', size = 'lg' }: TitleProps) {
     <h1 className={`
       font-bold
       ${sizes[size]}
-      bg-gradient-to-r from-indigo-500 via-purple-500 to-violet-500
+      bg-gradient-to-r from-primary-900 to-primary-400
       bg-clip-text text-transparent
       tracking-tight
       [text-shadow:_0_4px_8px_rgb(99_102_241_/_15%)]

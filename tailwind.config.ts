@@ -1,4 +1,5 @@
 import type { Config } from "tailwindcss";
+import { tokens } from './src/styles/tokens';
 
 export default {
   content: [
@@ -11,6 +12,8 @@ export default {
       colors: {
         background: "var(--background)",
         foreground: "var(--foreground)",
+        primary: tokens.colors.primary,
+        gray: tokens.colors.gray,
       },
     },
   },
