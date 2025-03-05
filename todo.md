@@ -1,9 +1,9 @@
 # Quick Decision Maker - Development To-Do List
 
 ## **1. Project Setup**
-- [x] Initialize a Next.js project with TypeScript
-- [x] Install Tailwind CSS and configure it properly
-- [x] Set up global styles and base layout component
+- [X] Initialize a Next.js project with TypeScript
+- [X] Install Tailwind CSS and configure it properly
+- [X] Set up global styles and base layout component
 
 ## **2. Home Screen UI**
 - [X] Create an input field for entering decision items
@@ -24,19 +24,19 @@
 - [X] Display three selection buttons (Left, IDK, Right) for each voter
 - [X] Store votes in component state and allow modifications before confirmation
 - [X] Disable "Confirm & Next" button until all voters have made a selection
-- [ ] Implement a dynamic progress bar for matchups
+- [X] Implement a dynamic progress bar for matchups
 
 ## **5. Elo Algorithm**
-- [ ] Write a TypeScript function to calculate Elo rating adjustments
-- [ ] Integrate Elo logic into the matchup system
-- [ ] Ensure votes impact Elo scores correctly
-- [ ] Implement automatic elimination for weakest options
-- [ ] Validate Elo calculations against test cases
+- [X] Write a TypeScript function to calculate Elo rating adjustments
+- [X] Integrate Elo logic into the matchup system
+- [X] Ensure votes impact Elo scores correctly
+- [X] Implement automatic elimination for weakest options
+- [X] Validate Elo calculations against test cases
 
 ## **6. Results Screen**
-- [ ] Create a final results screen displaying ranked items
-- [ ] Implement a "Copy Results" button for easy sharing
-- [ ] Add a "Restart Session" button to reset and start over
+- [X] Create a final results screen displaying ranked items
+- [X] Implement a "Copy Results" button for easy sharing
+- [X] Add a "Restart Session" button to reset and start over
 
 ## **7. Performance & UX Optimization**
 - [ ] Optimize state updates to minimize re-renders
@@ -48,6 +48,6 @@
 
 - [ ] Write unit tests for Elo logic and voting system
 - [ ] Test edge cases (ties, extreme votes, invalid inputs)
-- [ ] Perform UI/UX testing on different devices
+- [X] Perform UI/UX testing on different devices
 - [X] Deploy the app to Vercel
 - [X] Verify production functionality and fix any issues
